@@ -14,7 +14,7 @@ public class ListSorts {
 	 *    contains one object from q.
 	 * @throws QueueEmptyException 
 	 **/
-	public static LinkedQueue makeQueueOfQueues(LinkedQueue q) throws QueueEmptyException  {
+	public static LinkedQueue makeQueueOfQueues(LinkedQueue q) throws QueueEmptyException {
 		// Replace the following line with your solution.
 		LinkedQueue newQ = new LinkedQueue();
 		if(q.isEmpty()){
@@ -25,10 +25,10 @@ public class ListSorts {
 				Object o = q.dequeue();
 				LinkedQueue element = new LinkedQueue();
 				element.enqueue(o);
-				newQ.enqueue(element); 
+				newQ.enqueue(element);
 			}
 			catch(QueueEmptyException e){
-
+				
 			}
 		}
 		return newQ;
@@ -69,16 +69,22 @@ public class ListSorts {
 					q.enqueue(o2);
 				}
 			}
-			if(q1.isEmpty()){
-				Object o2 = q2.dequeue();
-				q.enqueue(o2);
+			if((!q2.isEmpty()) && q1.isEmpty()){
+				while(!q2.isEmpty()){
+					Object o2 = q2.dequeue();
+					q.enqueue(o2);
+				}
+				
+			}else if((!q1.isEmpty()) && q2.isEmpty()){
+				while(!q1.isEmpty()){
+					Object o1 = q1.dequeue();
+					q.enqueue(o1);
+				}
 			}else{
-				Object o1 = q1.dequeue();
-				q.enqueue(o1);
+				return q;
 			}
 		}
 		catch(QueueEmptyException e){
-			
 		}
 		return q;
 	}
@@ -108,14 +114,14 @@ public class ListSorts {
 				Object n = qIn.dequeue();
 				if(((Comparable)n).compareTo(pivot) < 0){
 					qSmall.enqueue(n);
-				}else if(((Comparable)n).compareTo(pivot) < 0){
+				}else if(((Comparable)n).compareTo(pivot) >0){
 					qLarge.enqueue(n);
 				}else{
 					qEquals.enqueue(n);
 				}
 			}
 		}catch(QueueEmptyException e){
-			
+
 		}
 	}
 
@@ -137,13 +143,13 @@ public class ListSorts {
 				i1 = mergeSortedQueues(i1, i2);
 				q.enqueue(i1);
 			}
-			i1 =(LinkedQueue)(q.dequeue());
+			i1 = (LinkedQueue)(q.dequeue());
 			q.append(i1);
+			
 		}catch(QueueEmptyException e){
-			System.out.println("aaa");
 		}
 	}
-	
+
 
 	/**
 	 *  quickSort() sorts q from smallest to largest using quicksort.
@@ -151,6 +157,22 @@ public class ListSorts {
 	 **/
 	public static void quickSort(LinkedQueue q) {
 		// Your solution here.
+		if(q.isEmpty()){
+			return;
+		}
+		int n = (int)(Math.random()*(q.size()-1) +1);
+		LinkedQueue qSmall = new LinkedQueue();
+		LinkedQueue qEquals = new LinkedQueue();
+		LinkedQueue qLarge = new LinkedQueue();
+		Object o = q.nth(n);
+		partition(q, (Comparable)o, qSmall, qEquals, qLarge);
+		quickSort(qSmall);
+		quickSort(qLarge);
+		
+		q.append(qSmall);
+		q.append(qEquals);
+		q.append(qLarge);
+		
 	}
 
 	/**
