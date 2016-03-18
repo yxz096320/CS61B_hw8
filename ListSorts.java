@@ -4,7 +4,7 @@ import list.*;
 
 public class ListSorts {
 
-	private final static int SORTSIZE = 1000;
+	private final static int SORTSIZE = 1000000;
 
 	/**
 	 *  makeQueueOfQueues() makes a queue of queues, each containing one item
@@ -135,15 +135,15 @@ public class ListSorts {
 			return;
 		}
 		try{
-			q = makeQueueOfQueues(q);
+			LinkedQueue p = makeQueueOfQueues(q);
 			LinkedQueue i1, i2;
-			while(q.size() != 1){
-				i1 = (LinkedQueue)(q.dequeue());
-				i2 = (LinkedQueue)(q.dequeue());
+			while(p.size() != 1){
+				i1 = (LinkedQueue)(p.dequeue());
+				i2 = (LinkedQueue)(p.dequeue());
 				i1 = mergeSortedQueues(i1, i2);
-				q.enqueue(i1);
+				p.enqueue(i1);
 			}
-			i1 = (LinkedQueue)(q.dequeue());
+			i1 = (LinkedQueue)(p.dequeue());
 			q.append(i1);
 			
 		}catch(QueueEmptyException e){
@@ -206,7 +206,7 @@ public class ListSorts {
 		quickSort(q);
 		System.out.println(q.toString());
 
-		/* Remove these comments for Part III.
+	//	 Remove these comments for Part III.
     Timer stopWatch = new Timer();
     q = makeRandom(SORTSIZE);
     stopWatch.start();
@@ -222,7 +222,6 @@ public class ListSorts {
     stopWatch.stop();
     System.out.println("Quicksort time, " + SORTSIZE + " Integers:  " +
                        stopWatch.elapsed() + " msec.");
-		 */
 	}
 
 }
